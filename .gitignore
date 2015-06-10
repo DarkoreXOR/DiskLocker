@@ -1,2 +1,5 @@
 /build/*
 /DiskLockerApp/**/obj/*
+/DiskLockerApp/packages/*
+/devio.dll/__history/*
+*.sdf
