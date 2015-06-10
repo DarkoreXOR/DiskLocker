@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.415,G:\diplom_project\DiskLocker\devio\Unit1.pas=G:\diplom_project\DiskLocker\devio\IoPackets.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.767,=G:\diplom_project\DiskLocker\devio\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.400,C:\Users\CoreX\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\CoreX\Documents\Embarcadero\Studio\Projects\devio.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.538,C:\Users\CoreX\Documents\Embarcadero\Studio\Projects\devio.dproj=G:\diplom_project\DiskLocker\devio\devio.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

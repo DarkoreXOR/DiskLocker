@@ -1,0 +1,126 @@
+unit IoPackets;
+
+interface
+
+uses Windows, StrUtils, SysUtils;
+
+type
+  PKADD_PATH_FOR_PROTECTION_IN_PACKET = ^KADD_PATH_FOR_PROTECTION_IN_PACKET;
+  KADD_PATH_FOR_PROTECTION_IN_PACKET = packed record
+    FullPath: array [0 .. 1024 - 1] of WideChar;
+  end;
+
+  PKADD_PATH_FOR_PROTECTION_OUT_PACKET = ^KADD_PATH_FOR_PROTECTION_OUT_PACKET;
+  KADD_PATH_FOR_PROTECTION_OUT_PACKET = packed record
+    UniqueKey: DWORD;
+  end;
+
+  PKREMOVE_PATH_FROM_PROTECTION_IN_PACKET = ^KREMOVE_PATH_FROM_PROTECTION_IN_PACKET;
+  KREMOVE_PATH_FROM_PROTECTION_IN_PACKET = packed record
+    UniqueKey: DWORD;
+  end;
+
+  PKREMOVE_PATH_FROM_PROTECTION_OUT_PACKET = ^KREMOVE_PATH_FROM_PROTECTION_OUT_PACKET;
+  KREMOVE_PATH_FROM_PROTECTION_OUT_PACKET = packed record
+    RemoveResult: LongBool;
+  end;
+
+const
+  ADD_PATH_FOR_PROTECTION_CODE: DWORD = $800;
+  REMOVE_PATH_FROM_PROTECTION_CODE: DWORD = $801;
+  REMOVE_ALL_PATHS_FROM_PROTECTION_CODE: DWORD = $802;
+
+function IoAddPathForProtection(hDevice: THandle; FullPath: PWideChar; var UniqueKey: DWORD): LongBool;
+function IoRemovePathFromProtection(hDevice: THandle; UniqueKey: DWORD; var RemoveResult: LongBool): LongBool;
+function IoRemoveAllPathsFromProtection(hDevice: THandle): LongBool;
+
+implementation
+
+function CTL_CODE(devicetype: DWORD; func: DWORD; method: DWORD;
+  access: DWORD): DWORD;
+begin
+  result := (devicetype shl 16) or (access shl 14) or (func shl 2) or method;
+end;
+
+function IoAddPathForProtection(hDevice: THandle; FullPath: PWideChar; var UniqueKey: DWORD): LongBool;
+var
+  code: DWORD;
+  res: LongBool;
+  IoBuffer: Pointer;
+  IoBufferSize: DWORD;
+  BytesReturned: DWORD;
+  InPacket: PKADD_PATH_FOR_PROTECTION_IN_PACKET;
+  OutPacket: PKADD_PATH_FOR_PROTECTION_OUT_PACKET;
+begin
+
+  code := CTL_CODE(FILE_DEVICE_UNKNOWN, ADD_PATH_FOR_PROTECTION_CODE,
+    METHOD_BUFFERED, FILE_ANY_ACCESS);
+
+  IoBufferSize := sizeof(KADD_PATH_FOR_PROTECTION_IN_PACKET);
+  IoBuffer := GetMemory(IoBufferSize);
+
+  InPacket := PKADD_PATH_FOR_PROTECTION_IN_PACKET(IoBuffer);
+
+  lstrcpyW(InPacket^.FullPath, FullPath);
+
+  res := DeviceIoControl(hDevice, code, IoBuffer, IoBufferSize, IoBuffer,
+    IoBufferSize, BytesReturned, nil);
+
+  if res then
+  begin
+    OutPacket := PKADD_PATH_FOR_PROTECTION_OUT_PACKET(IoBuffer);
+    UniqueKey := OutPacket^.UniqueKey;
+  end;
+
+  FreeMemory(IoBuffer);
+
+  result := res;
+end;
+
+function IoRemovePathFromProtection(hDevice: THandle; UniqueKey: DWORD; var RemoveResult: LongBool): LongBool;
+var
+  code: DWORD;
+  res: LongBool;
+  IoBuffer: Pointer;
+  IoBufferSize: DWORD;
+  BytesReturned: DWORD;
+  InPacket: PKREMOVE_PATH_FROM_PROTECTION_IN_PACKET;
+  OutPacket: PKREMOVE_PATH_FROM_PROTECTION_OUT_PACKET;
+begin
+
+  code := CTL_CODE(FILE_DEVICE_UNKNOWN, REMOVE_PATH_FROM_PROTECTION_CODE,
+    METHOD_BUFFERED, FILE_ANY_ACCESS);
+
+  IoBufferSize := sizeof(KREMOVE_PATH_FROM_PROTECTION_IN_PACKET);
+  IoBuffer := GetMemory(IoBufferSize);
+
+  InPacket := PKREMOVE_PATH_FROM_PROTECTION_IN_PACKET(IoBuffer);
+
+  InPacket.UniqueKey := UniqueKey;
+
+  res := DeviceIoControl(hDevice, code, IoBuffer, IoBufferSize, IoBuffer,
+    IoBufferSize, BytesReturned, nil);
+
+  if res then
+  begin
+    OutPacket := PKREMOVE_PATH_FROM_PROTECTION_OUT_PACKET(IoBuffer);
+    RemoveResult := OutPacket^.RemoveResult;
+  end;
+
+  FreeMemory(IoBuffer);
+
+  result := res;
+end;
+
+function IoRemoveAllPathsFromProtection(hDevice: THandle): LongBool;
+var
+  code: DWORD;
+  BytesReturned: DWORD;
+begin
+  code := CTL_CODE(FILE_DEVICE_UNKNOWN, REMOVE_ALL_PATHS_FROM_PROTECTION_CODE,
+    METHOD_BUFFERED, FILE_ANY_ACCESS);
+
+  result := DeviceIoControl(hDevice, code, nil, 0, nil, 0, BytesReturned, nil);
+end;
+
+end.

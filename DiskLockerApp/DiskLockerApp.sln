@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiskLockerApp", "DiskLockerApp\DiskLockerApp.csproj", "{E63871D2-053D-4C43-816E-B4EA1F259D9F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{17164AB6-8674-43F3-AE5A-DFC499B5AFFF} = {17164AB6-8674-43F3-AE5A-DFC499B5AFFF}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiskLockerService", "DiskLockerService\DiskLockerService.csproj", "{F3A4CBDF-ED44-4544-BB54-5878EB0EAC04}"
+	ProjectSection(ProjectDependencies) = postProject
+		{17164AB6-8674-43F3-AE5A-DFC499B5AFFF} = {17164AB6-8674-43F3-AE5A-DFC499B5AFFF}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiskLockerDebug", "DiskLockerDebug\DiskLockerDebug.csproj", "{4EE8BBDE-CFA6-4518-8567-2D6B89DFF80D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiskLockerIpc", "DiskLockerIpc\DiskLockerIpc.csproj", "{17164AB6-8674-43F3-AE5A-DFC499B5AFFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstallTool", "InstallTool\InstallTool.csproj", "{7FA40F8F-3822-437B-A95D-D2A889EB49F7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E63871D2-053D-4C43-816E-B4EA1F259D9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E63871D2-053D-4C43-816E-B4EA1F259D9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E63871D2-053D-4C43-816E-B4EA1F259D9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E63871D2-053D-4C43-816E-B4EA1F259D9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3A4CBDF-ED44-4544-BB54-5878EB0EAC04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3A4CBDF-ED44-4544-BB54-5878EB0EAC04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3A4CBDF-ED44-4544-BB54-5878EB0EAC04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3A4CBDF-ED44-4544-BB54-5878EB0EAC04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EE8BBDE-CFA6-4518-8567-2D6B89DFF80D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EE8BBDE-CFA6-4518-8567-2D6B89DFF80D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EE8BBDE-CFA6-4518-8567-2D6B89DFF80D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EE8BBDE-CFA6-4518-8567-2D6B89DFF80D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17164AB6-8674-43F3-AE5A-DFC499B5AFFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17164AB6-8674-43F3-AE5A-DFC499B5AFFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17164AB6-8674-43F3-AE5A-DFC499B5AFFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17164AB6-8674-43F3-AE5A-DFC499B5AFFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FA40F8F-3822-437B-A95D-D2A889EB49F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FA40F8F-3822-437B-A95D-D2A889EB49F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FA40F8F-3822-437B-A95D-D2A889EB49F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FA40F8F-3822-437B-A95D-D2A889EB49F7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
