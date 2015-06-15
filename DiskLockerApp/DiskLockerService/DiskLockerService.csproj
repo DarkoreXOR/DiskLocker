@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\DataUtils.cs" />
+    <Compile Include="Data\HashManager.cs" />
     <Compile Include="Data\PathManager.cs" />
     <Compile Include="Data\PasswordManager.cs" />
     <Compile Include="Data\SQLite\SqlCore.cs" />

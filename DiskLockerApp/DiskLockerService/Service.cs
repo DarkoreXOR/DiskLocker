@@ -115,7 +115,9 @@ namespace DiskLockerService
 
             PasswordManager passwordManager = new PasswordManager();
 
-            bool result = passwordManager.CheckPassword( packet.Password );
+            string password = HashManager.Sha256( packet.Password );
+
+            bool result = passwordManager.CheckPassword( password );
 
             ret.SessionKey = Guid.NewGuid().ToString();
             this.sessions.Add( ret.SessionKey );
@@ -149,11 +151,14 @@ namespace DiskLockerService
 
             PasswordManager passwordManager = new PasswordManager();
 
-            bool result = passwordManager.CheckPassword( packet.OldPassword );
+            string oldPassword = HashManager.Sha256( packet.OldPassword );
+
+            bool result = passwordManager.CheckPassword( oldPassword );
 
             if ( result )
             {
-                result = passwordManager.ChangePassword( packet.OldPassword, packet.NewPassword );
+                string newPassword = HashManager.Sha256( packet.NewPassword );
+                result = passwordManager.ChangePassword( oldPassword, newPassword );
             }
 
             ret.Value = result;
@@ -173,11 +178,13 @@ namespace DiskLockerService
 
             PasswordManager passwordManager = new PasswordManager();
 
-            bool result = passwordManager.CheckPassword( packet.Password );
+            string password = HashManager.Sha256( packet.Password );
+
+            bool result = passwordManager.CheckPassword( password );
 
             if ( result )
             {
-                result = passwordManager.DeletePassword( packet.Password );
+                result = passwordManager.DeletePassword( password );
                 this.DeleteSession( packet.SessionKey );
             }
 
@@ -206,7 +213,9 @@ namespace DiskLockerService
                 return ret;
             }
 
-            passwordManager.InsertPassword( packet.NewPassword );
+            string newPassword = HashManager.Sha256( packet.NewPassword );
+
+            passwordManager.InsertPassword( newPassword );
 
             ret.Value = true;
             return ret;
