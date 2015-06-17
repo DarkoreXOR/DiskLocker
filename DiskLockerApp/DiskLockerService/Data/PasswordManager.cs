@@ -11,7 +11,6 @@ namespace DiskLockerService.Data
     {
         public PasswordManager()
         {
-
         }
 
         public bool HasPasswords()

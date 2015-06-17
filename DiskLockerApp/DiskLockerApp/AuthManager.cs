@@ -7,11 +7,11 @@ using System.Windows.Forms;
 
 namespace DiskLockerApp
 {
-    public class Auth
+    public class AuthManager
     {
         private IpcManager manager;
 
-        public Auth(IpcManager manager)
+        public AuthManager(IpcManager manager)
         {
             this.manager = manager;
         }
@@ -29,7 +29,7 @@ namespace DiskLockerApp
 
                 authResult = false;
 
-                var form = new Form2();
+                var form = new CheckPasswordForm();
 
                 DialogResult result = form.ShowDialog();
 
@@ -53,7 +53,7 @@ namespace DiskLockerApp
 
         public bool CreatePassword()
         {
-            var form = new Form3();
+            var form = new CreatePasswordForm();
 
             DialogResult result = form.ShowDialog();
 

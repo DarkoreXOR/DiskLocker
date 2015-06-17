@@ -146,7 +146,7 @@ void OnUnload( IN PDRIVER_OBJECT DriverObject )
 
     UNREFERENCED_PARAMETER( DriverObject );
 
-    DbgPrint( "file system filter unloading..." );
+    DbgPrint( "file system driver unloading..." );
 
     KIRQL oldIrql;
 

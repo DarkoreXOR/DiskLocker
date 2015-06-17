@@ -8,7 +8,8 @@
 
 static CONST FLT_OPERATION_REGISTRATION Callbacks[] =
 {
-    {IRP_MJ_CREATE, 0, PreCreateOperationCallback, PostCreateOperationCallback},
+    {IRP_MJ_CREATE, 0, PreOperationCallback, NULL},
+
     {IRP_MJ_OPERATION_END}
 };
 

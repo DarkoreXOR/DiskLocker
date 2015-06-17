@@ -19,7 +19,7 @@ namespace DiskLockerApp
             Application.SetCompatibleTextRenderingDefault( false );
 
             IpcManager manager = new IpcManager();
-            Auth auth = new Auth( manager );
+            AuthManager auth = new AuthManager( manager );
 
             string sessionKey;
 
@@ -38,7 +38,7 @@ namespace DiskLockerApp
 
                     if ( authResult )
                     {
-                        Application.Run( new Form1( sessionKey ) );
+                        Application.Run( new MainForm( sessionKey ) );
                     }
                 }
             }

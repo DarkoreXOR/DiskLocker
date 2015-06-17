@@ -11,11 +11,11 @@ using System.Windows.Forms;
 
 namespace DiskLockerApp
 {
-    public partial class Form4 : Form
+    public partial class ChangePasswordForm : Form
     {
         private string sessionKey;
 
-        public Form4( string sessionKey )
+        public ChangePasswordForm( string sessionKey )
         {
             InitializeComponent();
             this.sessionKey = sessionKey;

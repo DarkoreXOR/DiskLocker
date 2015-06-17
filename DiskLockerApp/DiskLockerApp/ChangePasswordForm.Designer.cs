@@ -1,6 +1,6 @@
 ﻿namespace DiskLockerApp
 {
-    partial class Form4
+    partial class ChangePasswordForm
     {
         /// <summary>
         /// Required designer variable.

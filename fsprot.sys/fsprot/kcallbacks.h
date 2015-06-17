@@ -8,20 +8,15 @@
 
 BOOLEAN IsCorrectFileName( IN PUNICODE_STRING filename );
 
-BOOLEAN PreCreateChecks( IN OUT PFLT_CALLBACK_DATA Data,
-                         IN PCFLT_RELATED_OBJECTS FltObjects );
+BOOLEAN PreOperationChecks( IN OUT PFLT_CALLBACK_DATA Data,
+                            IN PCFLT_RELATED_OBJECTS FltObjects );
 
-BOOLEAN GetFileInfo( IN OUT PFLT_CALLBACK_DATA Data,
-                     OUT PFLT_FILE_NAME_INFORMATION * FileInformation );
-
-
-
-FLT_PREOP_CALLBACK_STATUS PreCreateOperationCallback(
+FLT_PREOP_CALLBACK_STATUS PreOperationCallback(
     IN OUT PFLT_CALLBACK_DATA Data,
     IN PCFLT_RELATED_OBJECTS FltObjects,
     IN OUT PVOID *CompletionContext );
 
-FLT_POSTOP_CALLBACK_STATUS PostCreateOperationCallback(
+FLT_POSTOP_CALLBACK_STATUS PostOperationCallback(
     IN OUT PFLT_CALLBACK_DATA Data,
     IN PCFLT_RELATED_OBJECTS FltObjects,
     IN PVOID CompletionContext,

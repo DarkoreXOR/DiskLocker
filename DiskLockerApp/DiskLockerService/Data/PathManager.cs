@@ -11,7 +11,6 @@ namespace DiskLockerService.Data
     {
         public PathManager()
         {
-
         }
 
         public bool InsertPath( string path, bool weakProtection )

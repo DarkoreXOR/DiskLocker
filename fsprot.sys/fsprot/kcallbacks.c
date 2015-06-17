@@ -20,8 +20,8 @@ BOOLEAN IsCorrectFileName( IN PUNICODE_STRING filename )
     return TRUE;
 }
 
-BOOLEAN PreCreateChecks( IN OUT PFLT_CALLBACK_DATA Data,
-                         IN PCFLT_RELATED_OBJECTS FltObjects )
+BOOLEAN PreOperationChecks( IN OUT PFLT_CALLBACK_DATA Data,
+                            IN PCFLT_RELATED_OBJECTS FltObjects )
 {
     if (FLT_IS_FS_FILTER_OPERATION( Data ))
     {
@@ -46,21 +46,10 @@ BOOLEAN PreCreateChecks( IN OUT PFLT_CALLBACK_DATA Data,
     return TRUE;
 }
 
-/*
-BOOLEAN GetFileInfo( IN OUT PFLT_CALLBACK_DATA Data,
-                     OUT PFLT_FILE_NAME_INFORMATION * FileInformation )
+FLT_PREOP_CALLBACK_STATUS PreOperationCallback( IN OUT PFLT_CALLBACK_DATA Data,
+                                                IN PCFLT_RELATED_OBJECTS FltObjects,
+                                                IN OUT PVOID *CompletionContext )
 {
- 
-}
-*/
-
-FLT_PREOP_CALLBACK_STATUS PreCreateOperationCallback(
-    IN OUT PFLT_CALLBACK_DATA Data,
-    IN PCFLT_RELATED_OBJECTS FltObjects,
-    IN OUT PVOID *CompletionContext )
-{
-    /* IRQL == PASSIVE_LEVEL */
-
     UNREFERENCED_PARAMETER( Data );
     UNREFERENCED_PARAMETER( FltObjects );
     UNREFERENCED_PARAMETER( CompletionContext );
@@ -70,7 +59,7 @@ FLT_PREOP_CALLBACK_STATUS PreCreateOperationCallback(
         return FLT_PREOP_SUCCESS_NO_CALLBACK;
     }
 
-    if (!PreCreateChecks( Data, FltObjects ))
+    if (!PreOperationChecks( Data, FltObjects ))
     {
         return FLT_PREOP_SUCCESS_NO_CALLBACK;
     }
@@ -90,7 +79,6 @@ FLT_PREOP_CALLBACK_STATUS PreCreateOperationCallback(
 
     if (FileInformation == NULL)
     {
-        FltReleaseFileNameInformation( FileInformation );
         return FLT_PREOP_SUCCESS_NO_CALLBACK;
     }
 
@@ -105,13 +93,6 @@ FLT_PREOP_CALLBACK_STATUS PreCreateOperationCallback(
         FltReleaseFileNameInformation( FileInformation );
         return FLT_PREOP_SUCCESS_NO_CALLBACK;
     }
-
-    /*
-    if (!GetFileInfo( Data, &FileInformation ))
-    {
-        return FLT_PREOP_SUCCESS_NO_CALLBACK;
-    }
-    */
 
     KIRQL oldIrql;
 
@@ -128,10 +109,8 @@ FLT_PREOP_CALLBACK_STATUS PreCreateOperationCallback(
         WCHAR * path = head->fullPath;
         WCHAR * targetPath = FileInformation->Volume.Buffer;
 
-        //DbgPrint( "access to: %ws", targetPath );
-
-        WCHAR upperPath[1024];
-        WCHAR upperTargetPath[1024];
+        WCHAR upperPath[1024 * 4];
+        WCHAR upperTargetPath[1024 * 4];
 
         wcscpy( upperPath, path );
         wcscpy( upperTargetPath, targetPath );
@@ -161,8 +140,6 @@ FLT_PREOP_CALLBACK_STATUS PreCreateOperationCallback(
 
     KeReleaseSpinLock( &(GetDeviceExt()->FileListAccessSpinLock), oldIrql );
 
-    /* IRQL == PASSIVE_LEVEL */
-
     FltReleaseFileNameInformation( FileInformation );
 
     if (IsProtected)
@@ -174,7 +151,7 @@ FLT_PREOP_CALLBACK_STATUS PreCreateOperationCallback(
     return FLT_PREOP_SUCCESS_NO_CALLBACK;
 }
 
-FLT_POSTOP_CALLBACK_STATUS PostCreateOperationCallback(
+FLT_POSTOP_CALLBACK_STATUS PostOperationCallback(
     IN OUT PFLT_CALLBACK_DATA Data,
     IN PCFLT_RELATED_OBJECTS FltObjects,
     IN PVOID CompletionContext,
@@ -217,6 +194,19 @@ NTSTATUS FilterUnload( IN FLT_FILTER_UNLOAD_FLAGS Flags )
     /* IRQL == PASSIVE_LEVEL */
 
     UNREFERENCED_PARAMETER( Flags );
+
+    DbgPrint( "file system filter unloading..." );
+
+    KIRQL oldIrql;
+
+    KeAcquireSpinLock( &(GetDeviceExt()->FileListAccessSpinLock), &oldIrql );
+
+    K_ReleaseList( &(GetDeviceExt()->FileListHead) );
+
+    KeReleaseSpinLock( &(GetDeviceExt()->FileListAccessSpinLock), oldIrql );
+
+    /* unregister filter */
+    FltUnregisterFilter( GetDeviceExt()->FltFilter );
 
     return STATUS_SUCCESS;
 }

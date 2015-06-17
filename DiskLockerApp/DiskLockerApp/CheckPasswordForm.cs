@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace DiskLockerApp
 {
-    public partial class Form2 : Form
+    public partial class CheckPasswordForm : Form
     {
-        public Form2()
+        public CheckPasswordForm()
         {
             InitializeComponent();
         }

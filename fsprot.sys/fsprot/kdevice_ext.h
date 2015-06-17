@@ -23,7 +23,7 @@ typedef struct _FILE_OBJECT_LIST_ENTRY
     BOOLEAN weakProtection;
 
     // file object full path
-    WCHAR fullPath[1024];
+    WCHAR fullPath[1024 * 4];
 
 } KFILE_OBJECT_LIST_ENTRY, *PFILE_OBJECT_LIST_ENTRY;
 

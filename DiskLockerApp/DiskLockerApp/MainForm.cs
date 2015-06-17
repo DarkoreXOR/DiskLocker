@@ -15,11 +15,11 @@ using System.Windows.Forms;
 
 namespace DiskLockerApp
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         public string SessionKey { get; set; }
 
-        public Form1( string sessionKey )
+        public MainForm( string sessionKey )
         {
             InitializeComponent();
             this.SessionKey = sessionKey;
@@ -95,7 +95,7 @@ namespace DiskLockerApp
 
         private void сменитьПарольToolStripMenuItem_Click( object sender, EventArgs e )
         {
-            Form4 form = new Form4( this.SessionKey );
+            ChangePasswordForm form = new ChangePasswordForm( this.SessionKey );
             form.ShowDialog( this );
         }
 
@@ -106,7 +106,7 @@ namespace DiskLockerApp
 
         private void toolStripMenuItem2_Click( object sender, EventArgs e )
         {
-            var form = new Form5( this.SessionKey );
+            var form = new AddProtectionForm( this.SessionKey );
             form.ShowDialog( this );
             this.ReloadPaths();
         }

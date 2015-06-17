@@ -1,6 +1,6 @@
 ﻿namespace DiskLockerApp
 {
-    partial class Form5
+    partial class AddProtectionForm
     {
         /// <summary>
         /// Required designer variable.
